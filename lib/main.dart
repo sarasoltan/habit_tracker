@@ -1,4 +1,6 @@
 import 'package:project2/firebase_options.dart';
+import 'package:project2/views/details.dart';
+import 'package:project2/views/habits_view.dart';
 import 'package:project2/views/introduction_animation_screen.dart';
 import 'package:project2/views/login_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -23,6 +25,7 @@ void main() async {
     routes: {
       '/login/': (context) => const LoginView(),
       '/register/': (context) => const RegisterView(),
+      '/details/': (context) => details(),
     },
   ));
 }
@@ -40,9 +43,11 @@ class HomePage extends StatelessWidget {
         switch (snapshot.connectionState) {
           case ConnectionState.done:
             final user = FirebaseAuth.instance.currentUser;
+
             if (user != null) {
+              print(user);
               if (user.emailVerified) {
-                return VerifyEmailView();
+                return habits_view();
               } else {
                 return VerifyEmailView();
               }

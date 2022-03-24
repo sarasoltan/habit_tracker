@@ -80,7 +80,7 @@ class MoodDiaryVew extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "Mood Dairy",
+                "Remind Yourself",
                 style: TextStyle(fontSize: 26.0, fontWeight: FontWeight.bold),
               ),
               SlideTransition(
@@ -91,7 +91,7 @@ class MoodDiaryVew extends StatelessWidget {
                     padding: EdgeInsets.only(
                         left: 64, right: 64, top: 16, bottom: 16),
                     child: Text(
-                      "Lorem ipsum dolor sit amet,consectetur adipiscing elit,sed do eiusmod tempor incididunt ut labore",
+                      "Around two weeks into your commitment it can be easy to forget. Place reminders to execute your habit each day or you might miss a few days. ",
                       textAlign: TextAlign.center,
                     ),
                   ),

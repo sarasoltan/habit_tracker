@@ -76,7 +76,7 @@ class RelaxView extends StatelessWidget {
               SlideTransition(
                 position: _relaxAnimation,
                 child: Text(
-                  "Relax",
+                  "Commit to Thirty Days",
                   style: TextStyle(fontSize: 26.0, fontWeight: FontWeight.bold),
                 ),
               ),
@@ -86,7 +86,7 @@ class RelaxView extends StatelessWidget {
                   padding:
                       EdgeInsets.only(left: 64, right: 64, top: 16, bottom: 16),
                   child: Text(
-                    "Lorem ipsum dolor sit amet,consectetur adipiscing elit,sed do eiusmod tempor incididunt ut labore",
+                    "Three to four weeks is all the time you need to make a habit automatic. If you can make it through the initial conditioning phase, it becomes much easier to sustain. A month is a good block of time to commit to a change since it easily fits in your calendar.",
                     textAlign: TextAlign.center,
                   ),
                 ),

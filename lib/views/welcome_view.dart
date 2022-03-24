@@ -73,7 +73,7 @@ class WelcomeView extends StatelessWidget {
               SlideTransition(
                 position: _welcomeFirstHalfAnimation,
                 child: Text(
-                  "Welcome",
+                  "Do it For Yourself",
                   style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),
                 ),
               ),
@@ -81,7 +81,7 @@ class WelcomeView extends StatelessWidget {
                 padding:
                     EdgeInsets.only(left: 64, right: 64, top: 16, bottom: 16),
                 child: Text(
-                  "Stay organised and live stress-free with you-do app",
+                  "Don’t worry about all the things you “should” have as habits. Instead tool your habits towards your goals and the things that motivate you.",
                   textAlign: TextAlign.center,
                 ),
               ),

@@ -97,7 +97,7 @@ class CareView extends StatelessWidget {
                 child: SlideTransition(
                   position: _relaxSecondHalfAnimation,
                   child: Text(
-                    "Care",
+                    "Start Simple",
                     style:
                         TextStyle(fontSize: 26.0, fontWeight: FontWeight.bold),
                   ),
@@ -107,7 +107,7 @@ class CareView extends StatelessWidget {
                 padding:
                     EdgeInsets.only(left: 64, right: 64, bottom: 16, top: 16),
                 child: Text(
-                  "Lorem ipsum dolor sit amet,consectetur adipiscing elit,sed do eiusmod tempor incididunt ut labore",
+                  "Don’t try to completely change your life in one day. It is easy to get over-motivated and take on too much.",
                   textAlign: TextAlign.center,
                 ),
               ),
