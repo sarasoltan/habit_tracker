@@ -1,7 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:project2/constants/routes.dart';
 import 'package:project2/main.dart';
+import 'package:project2/utilities/show_error_dialog.dart';
 import 'package:project2/views/FadeAnimation.dart';
 import '../firebase_options.dart';
 
@@ -187,17 +189,25 @@ class _LoginViewState extends State<LoginView> {
                                         .instance
                                         .signInWithEmailAndPassword(
                                             email: email, password: password);
-                                    print(userCredential);
+                                    Navigator.of(context)
+                                        .pushNamedAndRemoveUntil(
+                                            habitsRoute, (route) => false);
                                   } on FirebaseAuthException catch (e) {
                                     if (e.code == "user-not-found") {
-                                      print("user not found");
+                                      await showErrorDialog(
+                                          context, "User not found!");
                                     } else if (e.code == "wrong-password") {
-                                      print("wrong password");
-                                    } else if (e.code == "too-many-requests") {
-                                      print("too many requests");
+                                      await showErrorDialog(context,
+                                          "You have entered a wrong password!");
                                     } else {
-                                      print(e.code);
+                                      await showErrorDialog(
+                                          context, 'Error: ${e.code}');
                                     }
+                                  } catch (e) {
+                                    await showErrorDialog(
+                                      context,
+                                      e.toString(),
+                                    );
                                   }
                                 },
                                 child: const Text(

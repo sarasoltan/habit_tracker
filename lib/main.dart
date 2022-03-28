@@ -26,6 +26,7 @@ void main() async {
       '/login/': (context) => const LoginView(),
       '/register/': (context) => const RegisterView(),
       '/details/': (context) => details(),
+      '/habits/': (context) => habits_view(),
     },
   ));
 }

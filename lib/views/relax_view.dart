@@ -84,7 +84,7 @@ class RelaxView extends StatelessWidget {
                 position: _textAnimation,
                 child: Padding(
                   padding:
-                      EdgeInsets.only(left: 64, right: 64, top: 16, bottom: 16),
+                      EdgeInsets.only(left: 64, right: 64, top: 15, bottom: 16),
                   child: Text(
                     "Three to four weeks is all the time you need to make a habit automatic. If you can make it through the initial conditioning phase, it becomes much easier to sustain. A month is a good block of time to commit to a change since it easily fits in your calendar.",
                     textAlign: TextAlign.center,
