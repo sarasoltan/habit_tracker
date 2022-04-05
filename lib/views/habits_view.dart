@@ -2,8 +2,34 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project2/constants/routes.dart';
 import 'package:project2/enums/menu_action.dart';
+import 'package:project2/services/auth/auth_service.dart';
+import 'package:project2/services/crud/habits_services.dart';
 
-class habits_view extends StatelessWidget {
+class HabitsView extends StatefulWidget {
+  const HabitsView({Key? key}) : super(key: key);
+  @override
+  State<StatefulWidget> createState() => _HabitsViewState();
+}
+
+class _HabitsViewState extends State<HabitsView> {
+  late final HabitsService _habitsService;
+
+  String get userEmail => AuthService.firebase().currentUser!.email!;
+
+//initState is only availble in Stateful widget
+//open the database
+  @override
+  void initState() {
+    _habitsService = HabitsService();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _habitsService.close();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return
@@ -66,20 +92,25 @@ class habits_view extends StatelessWidget {
           ),
         ],
       ),
-      body:
-          // CalendarColumn(),
-          // floatingActionButton:
-          FloatingActionButton(
-        onPressed: () {
-          //     Provider.of<Bloc>(context, listen: false).hideSnackBar();
-          //     navigateToCreatePage(context);
+      body: FutureBuilder(
+        future: _habitsService.getOrCreateUser(email: userEmail),
+        builder: (context, snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.done:
+              return StreamBuilder(
+                  stream: _habitsService.allHabits,
+                  builder: (context, snapshot) {
+                    switch (snapshot.connectionState) {
+                      case ConnectionState.waiting:
+                        return const Text("waiting for all notes...");
+                      default:
+                        return const CircularProgressIndicator();
+                    }
+                  });
+            default:
+              return CircularProgressIndicator();
+          }
         },
-        child: Icon(
-          Icons.add,
-          color: Colors.white,
-          semanticLabel: 'Add',
-          size: 35.0,
-        ),
       ),
     );
   }

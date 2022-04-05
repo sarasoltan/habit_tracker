@@ -19,7 +19,7 @@ void main() async {
     routes: {
       loginRoute: (context) => const LoginView(),
       registerRoute: (context) => const RegisterView(),
-      habitsRoute: (context) => habits_view(),
+      habitsRoute: (context) => HabitsView(),
       verifyEmailRoute: (context) => const VerifyEmailView(),
     },
   ));
@@ -40,7 +40,7 @@ class HomePage extends StatelessWidget {
             if (user != null) {
               print(user);
               if (user.isEmailVerified) {
-                return habits_view();
+                return HabitsView();
               } else {
                 return VerifyEmailView();
               }
