@@ -4,6 +4,8 @@ import 'package:project2/services/auth/auth_exceptions.dart';
 import 'package:project2/services/auth/auth_service.dart';
 import 'package:project2/utilities/show_error_dialog.dart';
 import 'package:project2/views/FadeAnimation.dart';
+import 'package:project2/views/login_view.dart';
+import 'package:project2/views/verify_email_view.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({Key? key}) : super(key: key);
@@ -189,8 +191,12 @@ class _RegisterViewState extends State<RegisterView> {
                                         AuthService.firebase().currentUser;
                                     AuthService.firebase()
                                         .sendEmailVerification();
-                                    Navigator.of(context)
-                                        .pushNamed(verifyEmailRoute);
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (ctx) =>
+                                                VerifyEmailView()));
+                                    // Navigator.of(context)
+                                    //     .pushNamed(verifyEmailRoute);
                                   } on WeakPasswordAuthException {
                                     await showErrorDialog(
                                         context, "weak password");
@@ -221,10 +227,12 @@ class _RegisterViewState extends State<RegisterView> {
                           1.5,
                           TextButton(
                               onPressed: () {
-                                Navigator.of(context).pushNamedAndRemoveUntil(
-                                  loginRoute,
-                                  (route) => false,
-                                );
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (ctx) => LoginView()));
+                                // Navigator.of(context).pushNamedAndRemoveUntil(
+                                //   loginRoute,
+                                //   (route) => false,
+                                // );
                               },
                               child: const Text(
                                 "Already registered? Login here!",

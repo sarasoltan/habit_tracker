@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:project2/constants/routes.dart';
 import 'package:project2/services/auth/auth_exceptions.dart';
 import 'package:project2/services/auth/auth_service.dart';
+import 'package:project2/services/theme_service.dart';
 import 'package:project2/utilities/show_error_dialog.dart';
 import 'package:project2/views/FadeAnimation.dart';
+import 'package:project2/views/home_page/home_page.dart';
+import 'package:project2/views/register_view.dart';
+import 'package:project2/views/verify_email_view.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -35,6 +40,7 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
+    final themeService = GetIt.I.get<ThemeService>();
     return Scaffold(
         backgroundColor: Colors.white,
         // appBar: AppBar(title: const Text("login")),
@@ -189,14 +195,39 @@ class _LoginViewState extends State<LoginView> {
                                         AuthService.firebase().currentUser;
 
                                     if (user?.isEmailVerified ?? false) {
-                                      Navigator.of(context)
-                                          .pushNamedAndRemoveUntil(
-                                              habitsRoute, (route) => false);
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(builder: (ctx) {
+                                        return StreamBuilder<ThemeData>(
+                                            stream: themeService.theme.stream,
+                                            initialData:
+                                                themeService.theme.value,
+                                            builder: (context, snapshot) {
+                                              return AnimatedTheme(
+                                                duration: const Duration(
+                                                    milliseconds: 500),
+                                                data: snapshot.data!,
+                                                child: MaterialApp(
+                                                    theme: snapshot.data,
+                                                    home: const HomePage()),
+                                              );
+                                            });
+                                      }));
+                                      // Navigator.of(context)
+                                      //     .pushNamedAndRemoveUntil(
+                                      //         homePageRoute, (route) => false);
+
+                                      // Navigator.of(context)
+                                      //     .pushNamedAndRemoveUntil(
+                                      //         habitsRoute, (route) => false);
                                     } else {
-                                      Navigator.of(context)
-                                          .pushNamedAndRemoveUntil(
-                                              verifyEmailRoute,
-                                              (route) => false);
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (ctx) =>
+                                                  VerifyEmailView()));
+                                      // Navigator.of(context)
+                                      //     .pushNamedAndRemoveUntil(
+                                      //         verifyEmailRoute,
+                                      //         (route) => false);
                                     }
                                   } on UserNotFoundAuthException {
                                     await showErrorDialog(
@@ -208,6 +239,7 @@ class _LoginViewState extends State<LoginView> {
                                     await showErrorDialog(
                                         context, 'Authentication Error');
                                   }
+                                  //'Authentication Error'
                                 },
                                 child: const Text(
                                   "Login",
@@ -225,10 +257,13 @@ class _LoginViewState extends State<LoginView> {
                           1.5,
                           TextButton(
                               onPressed: () {
-                                Navigator.of(context).pushNamedAndRemoveUntil(
-                                  registerRoute,
-                                  (route) => false,
-                                );
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (ctx) => RegisterView()));
+
+                                // Navigator.of(context).pushNamedAndRemoveUntil(
+                                //   registerRoute,
+                                //   (route) => false,
+                                // );
                               },
                               child: const Text(
                                 "Not registered yet? register here!",

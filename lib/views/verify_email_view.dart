@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project2/constants/routes.dart';
 import 'package:project2/services/auth/auth_service.dart';
+import 'package:project2/views/register_view.dart';
 
 class VerifyEmailView extends StatefulWidget {
   const VerifyEmailView({Key? key}) : super(key: key);
@@ -29,7 +30,9 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
               onPressed: () async {
                 await AuthService.firebase().logOut();
                 Navigator.of(context)
-                    .pushNamedAndRemoveUntil(registerRoute, (route) => false);
+                    .push(MaterialPageRoute(builder: (ctx) => RegisterView()));
+                // Navigator.of(context)
+                //     .pushNamedAndRemoveUntil(registerRoute, (route) => false);
               },
               child: const Text("restart"))
         ],
