@@ -4,15 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:project2/db/days_table.dart';
 import 'package:project2/db/habits_days_table.dart';
 import 'package:project2/db/habits_table.dart';
-import 'package:project2/db/user_services.dart';
-import 'package:project2/extensions/list/filter.dart';
+import 'package:project2/db/users_table.dart';
 import 'package:project2/models/habit.dart';
 import 'package:project2/models/user.dart';
+import 'package:project2/services/auth/auth_service.dart';
 import 'package:sqflite/sqflite.dart';
 
 class HabitsDb {
-  static DatabaseUser? _user;
-  static const String dbName = "habits_db.db";
+  static Users? _user;
+  static const String dbName = "habits.db";
 
   static Future<Database> connectToDb() async {
     Future _onConfigure(Database db) async {
@@ -42,12 +42,12 @@ class HabitsDb {
   static Future<List<Map<String, dynamic>>> getAllHabits(
     Database db,
   ) {
-    //final user = AuthService.firebase().currentUser;
-    //final currentUser = _user;
+    // final user = AuthService.firebase().currentUser;
+    // final currentUser = _user;
     return db.query(
       HabitsTable.tableName,
-      //where: "${HabitsTable.userId} = ?",
-      //whereArgs: [currentUser?.id],
+      // where: "${HabitsTable.userId} = ?",
+      // whereArgs: [currentUser?.id],
     );
   }
 
@@ -83,8 +83,8 @@ class HabitsDb {
         whereArgs: [day[DaysTable.date]]);
   }
 
-  static Future<int> createHabit(Database db, Habit habit) {
-    return db.insert(HabitsTable.tableName, habit.toDb(),
+  static Future<int> createHabit(Database db, Habit habit) async {
+    return db.insert(HabitsTable.tableName, await habit.toDb(),
         conflictAlgorithm: ConflictAlgorithm.fail);
   }
 
@@ -93,8 +93,8 @@ class HabitsDb {
         where: "${HabitsTable.id} = ?", whereArgs: [habitId]);
   }
 
-  static Future<int> updateHabit(Database db, Habit habit) {
-    return db.update(HabitsTable.tableName, habit.toDb(),
+  static Future<int> updateHabit(Database db, Habit habit) async {
+    return db.update(HabitsTable.tableName, await habit.toDb(),
         where: "${HabitsTable.id} = ?", whereArgs: [habit.id]);
   }
 

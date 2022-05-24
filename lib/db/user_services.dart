@@ -14,7 +14,7 @@ import 'package:project2/db/users_table.dart';
 const dbName = "habits.db";
 
 class UserService {
-  DatabaseUser? _user;
+  Users? _user;
   Database? _db;
 
   static final UserService _shared = UserService._sharedInstance();
@@ -38,13 +38,14 @@ class UserService {
 
   // Stream<List<Databasehabits>> get allHabits => _habitsStreamController.stream;
 
-  Future<DatabaseUser> getOrCreateUser({
+  Future<Users> getOrCreateUser({
     required String email,
     bool setAsCurrentUser = true,
   }) async {
     try {
       //we found the user
       final user = await getUser(email: email);
+
       if (setAsCurrentUser) {
         _user = user;
       }
@@ -61,30 +62,32 @@ class UserService {
     }
   }
 
-  Future<DatabaseUser> getUser({required String email}) async {
+  Future<Users> getUser({required String email}) async {
     await _ensureDbIsOpen();
     final db = _getDatabaseOrThrow();
+    // final results = await db.rawQuery(
+    //     'SELECT * FROM "${UsersTable.tableName}" WHERE email = ?', [email]);
     final results = await db.query(
       UsersTable.tableName,
       limit: 1,
-      where: "email = ?",
+      where: 'email = ?',
       whereArgs: [email.toLowerCase()],
     );
     if (results.isEmpty) {
       throw CouldNotFindUser();
     } else {
-      return DatabaseUser.fromDb(results.first);
+      return Users.fromDb(results.first);
     }
   }
 
-  Future<DatabaseUser> createUser({required String email}) async {
+  Future<Users> createUser({required String email}) async {
     await _ensureDbIsOpen();
     final db = _getDatabaseOrThrow();
     //check if the email is already exists
     final results = await db.query(
       UsersTable.tableName,
       limit: 1,
-      where: "email = ?",
+      where: 'email = ?',
       whereArgs: [email.toLowerCase()],
     );
     if (results.isNotEmpty) {
@@ -93,7 +96,7 @@ class UserService {
     final userId = await db.insert(UsersTable.tableName, {
       email: email.toLowerCase(),
     });
-    return DatabaseUser(id: userId, email: email);
+    return Users(id: userId, email: email);
   }
 
   Future<void> deleteUser({required String email}) async {

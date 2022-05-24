@@ -1,10 +1,25 @@
 import 'dart:convert';
 
 import 'package:project2/db/habits_table.dart';
-import 'package:project2/db/users_table.dart';
+import 'package:project2/db/user_services.dart';
 import 'package:project2/models/user.dart';
+import 'package:project2/services/auth/auth_service.dart';
 
-DatabaseUser? owner;
+//final dbUser = await getUser(email: owner?.email);
+//final owner = AuthService.firebase().currentUser;
+//UserService _userService;
+final UserService userService = UserService();
+//String get owneruserId => AuthService.firebase().currentUser!.id;
+String get owneremail => AuthService.firebase().currentUser!.email;
+//Users owner = Users(email: owneremail);
+Future<Users> s() async {
+  final owner = await userService.getUser(email: owneremail);
+  return owner;
+}
+
+//AuthUser? owner = AuthService.firebase().currentUser;
+// final currentUser = AuthService.firebase().currentUser!;
+// final userId = currentUser.id;
 
 class Habit {
   late final int id;
@@ -17,7 +32,7 @@ class Habit {
   Habit(
       {
       //required this.id,
-      required this.userId,
+      //required this.userId,
       required this.text,
       required this.emoji,
       required this.period,
@@ -39,10 +54,11 @@ class Habit {
     }
   }
 
-  Map<String, dynamic> toDb() {
+  Future<Map<String, dynamic>> toDb() async {
+    var a = await s();
     return {
-      HabitsTable.id: id,
-      HabitsTable.userId: owner!.id,
+      //HabitsTable.id: id,
+      HabitsTable.userId: a.id,
       HabitsTable.text: text,
       HabitsTable.emoji: emoji,
       HabitsTable.period: jsonEncode(period),
@@ -50,13 +66,13 @@ class Habit {
     };
   }
 
-  @override
-  String toString() =>
-      'Habit, ID = $id, userId = $userId, text = $text, emoji = $emoji , period=$period , startPeriod = $startPeriod ';
+  // @override
+  // String toString() =>
+  //     'Habit, ID = $id, userId = $userId, text = $text, emoji = $emoji , period=$period , startPeriod = $startPeriod ';
 
-  @override
-  bool operator ==(covariant Habit other) => id == other.id;
+  // @override
+  // bool operator ==(covariant Habit other) => id == other.id;
 
-  @override
-  int get hashCode => id.hashCode;
+  // @override
+  // int get hashCode => id.hashCode;
 }

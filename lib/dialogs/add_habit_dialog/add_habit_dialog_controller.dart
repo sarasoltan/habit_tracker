@@ -1,14 +1,18 @@
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
 import 'package:project2/extensions/list/filter.dart';
 import 'package:project2/models/habit.dart';
 import 'package:project2/models/user.dart';
+import 'package:project2/services/auth/auth_service.dart';
 import 'package:project2/services/data_service.dart';
 
 class AddHabitDialogController {
-  DatabaseUser? _user;
+  Users? owner;
+  //final user = FirebaseAuth.instance.currentUser;
+  //String get owneruserId => AuthService.firebase().currentUser!.id;
 
   final List<bool> period = [true, true, true, true, true, true, true];
   int? id;
@@ -61,7 +65,7 @@ class AddHabitDialogController {
 
     final habit = Habit(
         //id: id!,
-        userId: userId!,
+        //userId: owner!.id,
         emoji: emoji!,
         text: text!,
         period: forPeriod,
@@ -74,7 +78,7 @@ class AddHabitDialogController {
   void _updateAddBtnEnabledState() {
     _addBtnEnabledCtrl.add((text?.isNotEmpty ?? false) &&
         (emoji?.isNotEmpty ?? false) &&
-        period.where((e) => e).length > 0);
+        period.where((e) => e).isNotEmpty);
   }
 
   DateTime? _calculateStartPeriodDateTime() {
