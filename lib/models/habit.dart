@@ -12,10 +12,10 @@ final UserService userService = UserService();
 //String get owneruserId => AuthService.firebase().currentUser!.id;
 String get owneremail => AuthService.firebase().currentUser!.email;
 //Users owner = Users(email: owneremail);
-Future<Users> s() async {
+//Future<Users> s() async {
   final owner = await userService.getUser(email: owneremail);
-  return owner;
-}
+ // return owner;
+//}
 
 //AuthUser? owner = AuthService.firebase().currentUser;
 // final currentUser = AuthService.firebase().currentUser!;
@@ -55,10 +55,10 @@ class Habit {
   }
 
   Future<Map<String, dynamic>> toDb() async {
-    var a = await s();
+    //var a = await s();
     return {
       //HabitsTable.id: id,
-      HabitsTable.userId: a.id,
+      HabitsTable.userId: owner.id,
       HabitsTable.text: text,
       HabitsTable.emoji: emoji,
       HabitsTable.period: jsonEncode(period),
