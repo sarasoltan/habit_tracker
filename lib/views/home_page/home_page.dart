@@ -40,64 +40,69 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // return FutureBuilder(
-    //     future: _userService.getOrCreateUser(email: userEmail),
-    //     builder: (context, snapshot) {
-    return Provider(
-      create: (ctx) => HomePageController(),
-      dispose: (ctx, HomePageController controller) => controller.dispose(),
-      builder: (ctx, child) =>
-          Consumer<HomePageController>(builder: (ctx, controller, child) {
-        return Scaffold(
-            body: SafeArea(
-                child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TopBar(),
-            MonthRow(),
-            SizedBox(child: Calendar()),
-            Expanded(
-                child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Stack(
+    print(userEmail);
+    return FutureBuilder(
+        future: _userService.getOrCreateUser(email: userEmail),
+        builder: (context, snapshot) {
+          return Provider(
+            create: (ctx) => HomePageController(),
+            dispose: (ctx, HomePageController controller) =>
+                controller.dispose(),
+            builder: (ctx, child) =>
+                Consumer<HomePageController>(builder: (ctx, controller, child) {
+              return Scaffold(
+                  body: SafeArea(
+                      child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        top: 35, right: 35, left: 35, bottom: 20),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Theme.of(context).primaryColorLight),
-                      padding: const EdgeInsets.only(top: 35),
-                      child: HabitsDayList(),
+                  TopBar(),
+                  MonthRow(),
+                  SizedBox(child: Calendar()),
+                  Expanded(
+                      child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Stack(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              top: 35, right: 35, left: 35, bottom: 20),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Theme.of(context).primaryColorLight),
+                            padding: const EdgeInsets.only(top: 35),
+                            child: HabitsDayList(),
+                          ),
+                        ),
+                        Positioned(
+                            left: 0,
+                            top: 0,
+                            width: 70,
+                            height: 70,
+                            child: DayBox()),
+                        Positioned(
+                            right: 0,
+                            top: 0,
+                            width: 70,
+                            height: 70,
+                            child: Container(
+                                padding: const EdgeInsets.all(15),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Theme.of(context).primaryColor),
+                                child: CircularButton(
+                                  onPressed: () =>
+                                      controller.showHabitsDialog(context),
+                                  icon: Icon(Icons.list),
+                                )))
+                      ],
                     ),
-                  ),
-                  Positioned(
-                      left: 0, top: 0, width: 70, height: 70, child: DayBox()),
-                  Positioned(
-                      right: 0,
-                      top: 0,
-                      width: 70,
-                      height: 70,
-                      child: Container(
-                          padding: const EdgeInsets.all(15),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Theme.of(context).primaryColor),
-                          child: CircularButton(
-                            onPressed: () =>
-                                controller.showHabitsDialog(context),
-                            icon: Icon(Icons.list),
-                          )))
+                  ))
                 ],
-              ),
-            ))
-          ],
-        )));
-      }),
-    );
-    //}
-    //     );
+              )));
+            }),
+          );
+        });
   }
 }
 

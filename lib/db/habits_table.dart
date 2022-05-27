@@ -13,11 +13,11 @@ class HabitsTable {
 
   static const String createQuery = '''
     CREATE TABLE IF NOT EXISTS $tableName (
-      $id integer primary key autoincrement,
-      $userId integer not null,
-      $text text not null,
-      $emoji text not null,
-      $period text not null,
-      $startPeriod integer,
-      FOREIGN Key($userId) REFERENCES ${UsersTable.tableName}(${UsersTable.id}));''';
+      $id INTEGER PRIMARY KEY AUTOINCREMENT,
+      $userId INTEGER NOT NULL,
+      $text TEXT NOT NULL,
+      $emoji TEXT NOT NULL,
+      $period TEXT NOT NULL,
+      $startPeriod INTEGER,
+      FOREIGN KEY($userId) REFERENCES ${UsersTable.tableName}(id));''';
 }

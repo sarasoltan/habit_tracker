@@ -1,8 +1,8 @@
 import 'package:project2/db/users_table.dart';
 
 class Users {
-  late final int? id;
-  late String? email;
+  late final int id;
+  late String email;
 
   Users({
     required this.id,
@@ -10,8 +10,8 @@ class Users {
   });
 
   Users.fromDb(Map<String, dynamic> map) {
-    id = map[UsersTable.id];
-    email = map[UsersTable.email];
+    id = map[UsersTable.idColumn];
+    email = map[UsersTable.emailColumn];
   }
   // Users.fromRow(Map<String, Object?> map)
   //     : id = map[UsersTable.id] as int,

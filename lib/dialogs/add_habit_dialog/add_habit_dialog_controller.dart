@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
+import 'package:project2/db/user_services.dart';
 import 'package:project2/extensions/list/filter.dart';
 import 'package:project2/models/habit.dart';
 import 'package:project2/models/user.dart';
@@ -13,6 +14,14 @@ class AddHabitDialogController {
   Users? owner;
   //final user = FirebaseAuth.instance.currentUser;
   //String get owneruserId => AuthService.firebase().currentUser!.id;
+  final UserService userService = UserService();
+//String get owneruserId => AuthService.firebase().currentUser!.id;
+  String get owneremail => AuthService.firebase().currentUser!.email;
+//Users owner = Users(email: owneremail);
+  Future<Users> s() async {
+    final owner = await userService.getUser(email: owneremail);
+    return owner;
+  }
 
   final List<bool> period = [true, true, true, true, true, true, true];
   int? id;
@@ -62,10 +71,11 @@ class AddHabitDialogController {
         forPeriod.add(i + 1);
       }
     }
+    var a = await s();
 
     final habit = Habit(
         //id: id!,
-        //userId: owner!.id,
+        userId: a.id,
         emoji: emoji!,
         text: text!,
         period: forPeriod,

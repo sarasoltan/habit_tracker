@@ -26,6 +26,7 @@ class HabitsDb {
 
   static Future<void> _createTables(Database db, int version) async {
     await db.execute(HabitsTable.createQuery);
+    await db.execute(UsersTable.createQuery);
     await db.execute(DaysTable.createQuery);
     await db.execute(HabitsDaysTable.createQuery);
     //   await _createTutorialHabit(db);

@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:project2/db/user_services.dart';
 import 'package:project2/services/auth/auth_service.dart';
 import 'package:project2/services/data_service.dart';
 import 'package:project2/services/theme_service.dart';
@@ -24,6 +25,9 @@ void main() async {
   WidgetsBinding.instance!.addObserver(LifeCycleHandler(
       resumeCallBack: () async =>
           themeService.updateThemeStatus(themeService.themeStatus)));
+
+  // final UserService userService = UserService();
+  // userService.getAllUsers;
 
   runApp(
     //MaterialApp(

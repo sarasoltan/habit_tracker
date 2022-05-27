@@ -62,6 +62,28 @@ class UserService {
     }
   }
 
+  // Future<List<Users>> getAllUsers() async {
+  //   Users users;
+  //   List<Map<String, dynamic>> list =
+  //       await _db!.rawQuery('SELECT * FROM Users');
+  //   return list.map((users) => Users.fromDb(users)).toList();
+  // }
+
+  // void getallUsers() async {
+  //   await _ensureDbIsOpen();
+  //   final db = _getDatabaseOrThrow();
+  //   // final results = await db.rawQuery(
+  //   //     'SELECT * FROM "${UsersTable.tableName}" WHERE email = ?', [email]);
+  //   final results = await db.query(
+  //     UsersTable.tableName,
+  //   );
+  //   if (results.isEmpty) {
+  //     throw CouldNotFindUser();
+  //   } else {
+  //     print(results);
+  //   }
+  // }
+
   Future<Users> getUser({required String email}) async {
     await _ensureDbIsOpen();
     final db = _getDatabaseOrThrow();
@@ -93,9 +115,11 @@ class UserService {
     if (results.isNotEmpty) {
       throw UserAlreadyExists();
     }
+
     final userId = await db.insert(UsersTable.tableName, {
-      email: email.toLowerCase(),
+      UsersTable.emailColumn: email.toLowerCase(),
     });
+
     return Users(id: userId, email: email);
   }
 
@@ -146,9 +170,7 @@ class UserService {
       final dbPath = join(docspath.path, dbName);
       final db = await openDatabase(dbPath);
       _db = db;
-
 // create user  table
-
       await db.execute(UsersTable.createQuery);
     } on MissingPlatformDirectoryException {
       throw UnableToGetDocumentsDirectory();
