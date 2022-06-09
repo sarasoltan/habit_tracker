@@ -9,12 +9,15 @@ import 'package:project2/models/habit.dart';
 import 'package:project2/models/user.dart';
 import 'package:project2/services/auth/auth_service.dart';
 import 'package:project2/services/data_service.dart';
+import 'package:sqflite/sqflite.dart';
 
 class AddHabitDialogController {
   Users? owner;
+  Users? _user;
+
   //final user = FirebaseAuth.instance.currentUser;
   //String get owneruserId => AuthService.firebase().currentUser!.id;
-  final UserService userService = UserService();
+  final DataService userService = DataService();
 //String get owneruserId => AuthService.firebase().currentUser!.id;
   String get owneremail => AuthService.firebase().currentUser!.email;
 //Users owner = Users(email: owneremail);
@@ -71,7 +74,7 @@ class AddHabitDialogController {
         forPeriod.add(i + 1);
       }
     }
-    var a = await s();
+    Users a = await s();
 
     final habit = Habit(
         //id: id!,
@@ -112,6 +115,8 @@ class AddHabitDialogController {
     _loadingCtrl.close();
     _selectedStartPeriodCtrl.close();
   }
+
+  UserShouldBeSetBeforeReadingAllNotes() {}
 }
 
 enum StartPeriod { none, today, thisMonth, thisYear }

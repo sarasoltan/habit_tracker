@@ -10,12 +10,12 @@ class UsersTable {
 	id INTEGER PRIMARY KEY AUTOINCREMENT,
 	email TEXT NOT NULL UNIQUE );''';
 
-  // @override
-  // String toString() => 'Person, ID: $id, email: $email';
+  @override
+  String toString() => 'Person, ID: $idColumn, email: $emailColumn';
 
-  // @override
-  // bool operator ==(covariant Users other) => id == other.id;
+  @override
+  bool operator ==(covariant Users other) => idColumn == other.id;
 
-  // @override
-  // int get hashCode => id.hashCode;
+  @override
+  int get hashCode => idColumn.hashCode;
 }

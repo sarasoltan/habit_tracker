@@ -5,9 +5,13 @@ import 'package:project2/db/days_table.dart';
 import 'package:project2/db/habits_days_table.dart';
 import 'package:project2/db/habits_table.dart';
 import 'package:project2/db/users_table.dart';
+import 'package:project2/extensions/list/filter.dart';
 import 'package:project2/models/habit.dart';
 import 'package:project2/models/user.dart';
 import 'package:project2/services/auth/auth_service.dart';
+import 'package:project2/services/crud/crud_exceptions.dart';
+import 'package:project2/services/data_service.dart';
+import 'package:project2/services/data_service.dart';
 import 'package:sqflite/sqflite.dart';
 
 class HabitsDb {
@@ -24,11 +28,14 @@ class HabitsDb {
     //return await openDatabase(dbName, onConfigure: _onConfigure);
   }
 
+  final dataService = DataService;
+
   static Future<void> _createTables(Database db, int version) async {
     await db.execute(HabitsTable.createQuery);
     await db.execute(UsersTable.createQuery);
     await db.execute(DaysTable.createQuery);
     await db.execute(HabitsDaysTable.createQuery);
+
     //   await _createTutorialHabit(db);
   }
 
@@ -130,39 +137,6 @@ class HabitsDb {
             "${HabitsDaysTable.dayId} = ? AND ${HabitsDaysTable.habitId} = ?",
         whereArgs: [date.millisecondsSinceEpoch, habitId]);
   }
+/////////////////////////////////
+
 }
-
-// class DatabaseHabits {
-//   final int id;
-//   final int userId;
-//   final String text;
-//   final String emoji;
-//   final String period;
-//   final String startPeriod;
-
-//   DatabaseHabits({
-//     required this.id,
-//     required this.userId,
-//     required this.text,
-//     required this.emoji,
-//     required this.period,
-//     required this.startPeriod,
-//   });
-
-//   DatabaseHabits.fromRow(Map<String, Object?> map)
-//       : id = map[HabitsTable.id] as int,
-//         userId = map[HabitsTable.userId] as int,
-//         text = map[HabitsTable.text] as String,
-//         emoji = map[HabitsTable.emoji] as String,
-//         period = map[HabitsTable.period] as String,
-//         startPeriod = map[HabitsTable.startPeriod] as String;
-
-//   @override
-//   String toString() =>
-//       'Habit, ID= $id, userId = $userId, text= $text, emoji=$emoji, period=$period, startPeriod=$startPeriod';
-//   @override
-//   bool operator ==(covariant DatabaseHabits other) => id == other.id;
-
-//   @override
-//   int get hashCode => id.hashCode;
-// }

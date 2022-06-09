@@ -4,18 +4,19 @@ import 'package:project2/db/habits_table.dart';
 import 'package:project2/db/user_services.dart';
 import 'package:project2/models/user.dart';
 import 'package:project2/services/auth/auth_service.dart';
+import 'package:project2/services/data_service.dart';
 
 //final dbUser = await getUser(email: owner?.email);
 //final owner = AuthService.firebase().currentUser;
 //UserService _userService;
-final UserService userService = UserService();
+final DataService userService = DataService();
 //String get owneruserId => AuthService.firebase().currentUser!.id;
 String get owneremail => AuthService.firebase().currentUser!.email;
 //Users owner = Users(email: owneremail);
-Future<Users> s() async {
-  final owner = await userService.getUser(email: owneremail);
-  return owner;
-}
+// Future<Users> s() async {
+//   final owner = await userService.getUser(email: owneremail);
+//   return owner;
+// }
 
 //AuthUser? owner = AuthService.firebase().currentUser;
 // final currentUser = AuthService.firebase().currentUser!;

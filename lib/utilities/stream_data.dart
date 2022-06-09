@@ -1,6 +1,13 @@
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:project2/models/habit.dart';
+
 class StreamData<T> {
+  List<Habit> _notes = [];
+
+  User? _user;
+
   late final StreamController<T> _controller;
   Stream<T> get stream => _controller.stream;
 

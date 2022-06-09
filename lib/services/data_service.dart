@@ -2,23 +2,44 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:project2/db/habits_db.dart';
 import 'package:project2/db/users_table.dart';
+import 'package:project2/extensions/list/filter.dart';
 import 'package:project2/models/day.dart';
 import 'package:project2/models/habit.dart';
+import 'package:project2/models/user.dart';
 import 'package:project2/services/auth/auth_service.dart';
+import 'package:project2/services/crud/crud_exceptions.dart';
 import 'package:project2/utilities/stream_data.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DataService {
   late final Database db;
+  Users? _user;
 
-  //String get userEmail => AuthService.firebase().currentUser!.email!;
-
-  // String get owneruserId => AuthService.firebase().currentUser!.id;
+  late final StreamData<Map<int, Habit>> habits;
+  List<Habit> _habits = [];
 
   // Mapped by Year + Month
   late final Map<int, List<Day>> _daysCache = Map();
 
-  late final StreamData<Map<int, Habit>> habits;
+  //////////////////
+  // static final DataService _shared = DataService._sharedInstance();
+  // DataService._sharedInstance() {
+  //   habits = StreamController<Map<int,Habit>>.broadcast(
+  //     onListen: () {
+  //       habits.sink.add(_habits);
+  //     },
+  //   );
+  // }
+  // factory DataService() => _shared;
+
+  // late final StreamController<List<Habit>> _habitsStreamController;
+
+  // Future<void> _cacheNotes() async {
+  //   final allNotes = await _getAllHabitsFromDb();
+  //   _habits = allNotes.toList();
+  //   _habitsStreamController.add(_habits);
+  // }
+  /////////////////
 
   // PUBLIC METHODS
 
@@ -34,6 +55,16 @@ class DataService {
       _addDaysToCache(days, date: date);
     }
   }
+
+  Stream<List<Habit>> get allHabits =>
+      habits.stream.map((m) => m.values.toList()).filter((habit) {
+        final currentUser = _user;
+        if (currentUser != null) {
+          return habit.userId == currentUser.id;
+        } else {
+          return false;
+        }
+      });
 
   List<Day> getDays(int year, int month) {
     _checkSavedInCache(year, month);
@@ -220,5 +251,86 @@ class DataService {
 
   int _getDayCacheKey(int year, int month) {
     return year + month;
+  }
+
+  ////////////////////////////////////////
+
+  //  {
+  //   _habitsStreamController = StreamController<List<Habit>>.broadcast(
+  //     onListen: () {
+  //       _habitsStreamController.sink.add(_habits);
+  //     },
+  //   );
+  // }
+
+  Future<Users> getOrCreateUser({
+    required String email,
+    bool setAsCurrentUser = true,
+  }) async {
+    try {
+      //we found the user
+      final user = await getUser(email: email);
+
+      if (setAsCurrentUser) {
+        _user = user;
+      }
+      return user;
+    } on CouldNotFindUser {
+      //we didn't find the user
+      final createdUser = await createUser(email: email);
+      if (setAsCurrentUser) {
+        _user = createdUser;
+      }
+      return createdUser;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<Users> getUser({required String email}) async {
+    // final results = await db.rawQuery(
+    //     'SELECT * FROM "${UsersTable.tableName}" WHERE email = ?', [email]);
+    db = await HabitsDb.connectToDb();
+    final results = await db.query(
+      UsersTable.tableName,
+      limit: 1,
+      where: 'email = ?',
+      whereArgs: [email.toLowerCase()],
+    );
+    if (results.isEmpty) {
+      throw CouldNotFindUser();
+    } else {
+      return Users.fromDb(results.first);
+    }
+  }
+
+  Future<Users> createUser({required String email}) async {
+    //check if the email is already exists
+    final results = await db.query(
+      UsersTable.tableName,
+      limit: 1,
+      where: 'email = ?',
+      whereArgs: [email.toLowerCase()],
+    );
+    if (results.isNotEmpty) {
+      throw UserAlreadyExists();
+    }
+
+    final userId = await db.insert(UsersTable.tableName, {
+      UsersTable.emailColumn: email.toLowerCase(),
+    });
+
+    return Users(id: userId, email: email);
+  }
+
+  Future<void> deleteUser({required String email}) async {
+    final deletedCount = await db.delete(
+      UsersTable.tableName,
+      where: 'email = ?',
+      whereArgs: [email.toLowerCase()],
+    );
+    if (deletedCount != 1) {
+      throw CouldNotDeleteUser();
+    }
   }
 }

@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:project2/services/data_service.dart';
 import 'package:project2/views/home_page/home_page_controller.dart';
 import 'package:project2/widgets/my_checkbox.dart';
 import 'package:provider/provider.dart';
 
-class HabitsDayList extends StatelessWidget {
+class HabitsDayList extends StatefulWidget {
   const HabitsDayList({Key? key}) : super(key: key);
+
+  @override
+  State<HabitsDayList> createState() => _HabitsDayListState();
+}
+
+class _HabitsDayListState extends State<HabitsDayList> {
+  late final DataService _dataService;
 
   @override
   Widget build(BuildContext context) {

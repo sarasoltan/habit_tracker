@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project2/services/auth/auth_service.dart';
 import 'package:project2/db/user_services.dart';
+import 'package:project2/services/data_service.dart';
 import 'package:project2/views/home_page/calendar.dart';
 import 'package:project2/views/home_page/day_box.dart';
 import 'package:project2/views/home_page/habits_day_list.dart';
@@ -21,22 +22,22 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late final UserService _userService;
+  late final DataService _userService;
 
   String get userEmail => AuthService.firebase().currentUser!.email;
 
 //initState is only availble in Stateful widget
   @override
   void initState() {
-    _userService = UserService();
+    _userService = DataService();
     super.initState();
   }
 
-  @override
-  void dispose() {
-    _userService.close();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _userService.close();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {

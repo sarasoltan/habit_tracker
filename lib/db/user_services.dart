@@ -1,179 +1,182 @@
-import 'dart:async';
+// import 'dart:async';
 
-import 'package:flutter/material.dart';
-import 'package:project2/extensions/list/filter.dart';
-import 'package:project2/models/habit.dart';
-import 'package:project2/models/user.dart';
-import 'package:project2/services/crud/crud_exceptions.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:path/path.dart' show join;
-import 'package:project2/db/users_table.dart';
+// import 'package:flutter/material.dart';
+// import 'package:project2/extensions/list/filter.dart';
+// import 'package:project2/models/habit.dart';
+// import 'package:project2/models/user.dart';
+// import 'package:project2/services/crud/crud_exceptions.dart';
+// import 'package:flutter/cupertino.dart';
+// import 'package:sqflite/sqflite.dart';
+// import 'package:path_provider/path_provider.dart';
+// import 'package:path/path.dart' show join;
+// import 'package:project2/db/users_table.dart';
 
-const dbName = "habits.db";
+// const dbName = "habits.db";
 
-class UserService {
-  Users? _user;
-  Database? _db;
+// class UserService {
+//   Users? _user;
+//   Database? _db;
 
-  static final UserService _shared = UserService._sharedInstance();
-  UserService._sharedInstance();
-  factory UserService() => _shared;
+//   static final UserService _shared = UserService._sharedInstance();
+//   UserService._sharedInstance();
+//   factory UserService() => _shared;
 
-  late final StreamController<List<Habit>> _habitsStreamController;
+//   late final StreamController<List<Habit>> _habitsStreamController;
 
-  Stream<List<Habit>> get allNotes =>
-      _habitsStreamController.stream.filter((habit) {
-        final currentUser = _user;
-        if (currentUser != null) {
-          return habit.userId == currentUser.id;
-        } else {
-          return false;
-        }
-      });
+//   Stream<List<Habit>> get allNotes =>
+//       _habitsStreamController.stream.filter((habit) {
+//         final currentUser = _user;
+//         if (currentUser != null) {
+//           return habit.userId == currentUser.id;
+//         } else {
+//           return false;
+//         }
+//       });
 
-  // final _habitsStreamController =
-  //     StreamController<List<Databasehabits>>.broadcast();
+//   // final _habitsStreamController =
+//   //     StreamController<List<Databasehabits>>.broadcast();
 
-  // Stream<List<Databasehabits>> get allHabits => _habitsStreamController.stream;
+//   // Stream<List<Databasehabits>> get allHabits => _habitsStreamController.stream;
 
-  Future<Users> getOrCreateUser({
-    required String email,
-    bool setAsCurrentUser = true,
-  }) async {
-    try {
-      //we found the user
-      final user = await getUser(email: email);
+//   Future<Users> getOrCreateUser({
+//     required String email,
+//     bool setAsCurrentUser = true,
+//   }) async {
+//     try {
+//       //we found the user
+//       final user = await getUser(email: email);
 
-      if (setAsCurrentUser) {
-        _user = user;
-      }
-      return user;
-    } on CouldNotFindUser {
-      //we didn't find the user
-      final createdUser = await createUser(email: email);
-      if (setAsCurrentUser) {
-        _user = createdUser;
-      }
-      return createdUser;
-    } catch (e) {
-      rethrow;
-    }
-  }
+//       if (setAsCurrentUser) {
+//         _user = user;
+//       }
+//       return user;
+//     } on CouldNotFindUser {
+//       //we didn't find the user
+//       final createdUser = await createUser(email: email);
+//       if (setAsCurrentUser) {
+//         _user = createdUser;
+//       }
+//       return createdUser;
+//     } catch (e) {
+//       rethrow;
+//     }
+//   }
 
-  // Future<List<Users>> getAllUsers() async {
-  //   Users users;
-  //   List<Map<String, dynamic>> list =
-  //       await _db!.rawQuery('SELECT * FROM Users');
-  //   return list.map((users) => Users.fromDb(users)).toList();
-  // }
+//   // Future<List<Users>> getAllUsers() async {
+//   //   Users users;
+//   //   List<Map<String, dynamic>> list =
+//   //       await _db!.rawQuery('SELECT * FROM Users');
+//   //   return list.map((users) => Users.fromDb(users)).toList();
+//   // }
 
-  // void getallUsers() async {
-  //   await _ensureDbIsOpen();
-  //   final db = _getDatabaseOrThrow();
-  //   // final results = await db.rawQuery(
-  //   //     'SELECT * FROM "${UsersTable.tableName}" WHERE email = ?', [email]);
-  //   final results = await db.query(
-  //     UsersTable.tableName,
-  //   );
-  //   if (results.isEmpty) {
-  //     throw CouldNotFindUser();
-  //   } else {
-  //     print(results);
-  //   }
-  // }
+//   // void getallUsers() async {
+//   //   await _ensureDbIsOpen();
+//   //   final db = _getDatabaseOrThrow();
+//   //   // final results = await db.rawQuery(
+//   //   //     'SELECT * FROM "${UsersTable.tableName}" WHERE email = ?', [email]);
+//   //   final results = await db.query(
+//   //     UsersTable.tableName,
+//   //   );
+//   //   if (results.isEmpty) {
+//   //     throw CouldNotFindUser();
+//   //   } else {
+//   //     print(results);
+//   //   }
+//   // }
 
-  Future<Users> getUser({required String email}) async {
-    await _ensureDbIsOpen();
-    final db = _getDatabaseOrThrow();
-    // final results = await db.rawQuery(
-    //     'SELECT * FROM "${UsersTable.tableName}" WHERE email = ?', [email]);
-    final results = await db.query(
-      UsersTable.tableName,
-      limit: 1,
-      where: 'email = ?',
-      whereArgs: [email.toLowerCase()],
-    );
-    if (results.isEmpty) {
-      throw CouldNotFindUser();
-    } else {
-      return Users.fromDb(results.first);
-    }
-  }
+//   Future<Users> getUser({required String email}) async {
+//     await _ensureDbIsOpen();
+//     final db = _getDatabaseOrThrow();
+//     // final results = await db.rawQuery(
+//     //     'SELECT * FROM "${UsersTable.tableName}" WHERE email = ?', [email]);
+//     final results = await db.query(
+//       UsersTable.tableName,
+//       limit: 1,
+//       where: 'email = ?',
+//       whereArgs: [email.toLowerCase()],
+//     );
+//     if (results.isEmpty) {
+//       throw CouldNotFindUser();
+//     } else {
+//       return Users.fromDb(results.first);
+//     }
+//   }
 
-  Future<Users> createUser({required String email}) async {
-    await _ensureDbIsOpen();
-    final db = _getDatabaseOrThrow();
-    //check if the email is already exists
-    final results = await db.query(
-      UsersTable.tableName,
-      limit: 1,
-      where: 'email = ?',
-      whereArgs: [email.toLowerCase()],
-    );
-    if (results.isNotEmpty) {
-      throw UserAlreadyExists();
-    }
+//   Future<Users> createUser({required String email}) async {
+//     await _ensureDbIsOpen();
+//     final db = _getDatabaseOrThrow();
+//     //check if the email is already exists
+//     final results = await db.query(
+//       UsersTable.tableName,
+//       limit: 1,
+//       where: 'email = ?',
+//       whereArgs: [email.toLowerCase()],
+//     );
+//     if (results.isNotEmpty) {
+//       throw UserAlreadyExists();
+//     }
 
-    final userId = await db.insert(UsersTable.tableName, {
-      UsersTable.emailColumn: email.toLowerCase(),
-    });
+//     final userId = await db.insert(UsersTable.tableName, {
+//       UsersTable.emailColumn: email.toLowerCase(),
+//     });
 
-    return Users(id: userId, email: email);
-  }
+//     return Users(id: userId, email: email);
+//   }
 
-  Future<void> deleteUser({required String email}) async {
-    await _ensureDbIsOpen();
-    final db = _getDatabaseOrThrow();
-    final deletedCount = await db.delete(
-      UsersTable.tableName,
-      where: 'email = ?',
-      whereArgs: [email.toLowerCase()],
-    );
-    if (deletedCount != 1) {
-      throw CouldNotDeleteUser();
-    }
-  }
+//   Future<void> deleteUser({required String email}) async {
+//     await _ensureDbIsOpen();
+//     final db = _getDatabaseOrThrow();
+//     final deletedCount = await db.delete(
+//       UsersTable.tableName,
+//       where: 'email = ?',
+//       whereArgs: [email.toLowerCase()],
+//     );
+//     if (deletedCount != 1) {
+//       throw CouldNotDeleteUser();
+//     }
+//   }
 
-  Database _getDatabaseOrThrow() {
-    final db = _db;
-    if (db == null) {
-      throw DatabaseIsNotOpen();
-    } else {
-      return db;
-    }
-  }
+//   Database _getDatabaseOrThrow() {
+//     final db = _db;
+//     if (db == null) {
+//       throw DatabaseIsNotOpen();
+//     } else {
+//       return db;
+//     }
+//   }
 
-  Future<void> close() async {
-    final db = _db;
-    if (db == null) {
-      throw DatabaseIsNotOpen();
-    } else {
-      await db.close();
-      _db = null;
-    }
-  }
+//   Future<void> close() async {
+//     final db = _db;
+//     if (db == null) {
+//       throw DatabaseIsNotOpen();
+//     } else {
+//       await db.close();
+//       _db = null;
+//     }
+//   }
 
-  Future<void> _ensureDbIsOpen() async {
-    try {
-      await open();
-    } on DatabaseAlreadyOpenException {}
-  }
+//   Future<void> _ensureDbIsOpen() async {
+//     try {
+//       await open();
+//     } on DatabaseAlreadyOpenException {}
+//   }
 
-  Future<void> open() async {
-    if (_db != null) {
-      throw DatabaseAlreadyOpenException();
-    }
-    try {
-      final docspath = await getApplicationDocumentsDirectory();
-      final dbPath = join(docspath.path, dbName);
-      final db = await openDatabase(dbPath);
-      _db = db;
-// create user  table
-      await db.execute(UsersTable.createQuery);
-    } on MissingPlatformDirectoryException {
-      throw UnableToGetDocumentsDirectory();
-    }
-  }
-}
+//   Future<void> open() async {
+//     if (_db != null) {
+//       throw DatabaseAlreadyOpenException();
+//     }
+//     try {
+//       final docspath = await getApplicationDocumentsDirectory();
+//       final dbPath = join(docspath.path, dbName);
+//       final db = await openDatabase(dbPath);
+//       _db = db;
+
+      
+
+// // create user  table
+//       await db.execute(UsersTable.createQuery);
+//     } on MissingPlatformDirectoryException {
+//       throw UnableToGetDocumentsDirectory();
+//     }
+//   }
+// }
