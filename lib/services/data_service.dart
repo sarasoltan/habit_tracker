@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:project2/db/habits_db.dart';
 import 'package:project2/db/users_table.dart';
@@ -44,6 +46,7 @@ class DataService {
   // PUBLIC METHODS
 
   Future<void> init() async {
+    //await Firebase.initializeApp();
     db = await HabitsDb.connectToDb();
     habits = StreamData(initialValue: await _getAllHabits(), broadcast: true);
 
@@ -56,15 +59,15 @@ class DataService {
     }
   }
 
-  Stream<List<Habit>> get allHabits =>
-      habits.stream.map((m) => m.values.toList()).filter((habit) {
-        final currentUser = _user;
-        if (currentUser != null) {
-          return habit.userId == currentUser.id;
-        } else {
-          return false;
-        }
-      });
+  // Stream<List<Habit>> get allHabits =>
+  //     habits.stream.map((m) => m.values.toList()).filter((habit) {
+  //       final currentUser = _user;
+  //       if (currentUser != null) {
+  //         return habit.userId == currentUser.id;
+  //       } else {
+  //         return false;
+  //       }
+  //     });
 
   List<Day> getDays(int year, int month) {
     _checkSavedInCache(year, month);
@@ -144,23 +147,32 @@ class DataService {
     return days;
   }
 
+  //String get userEmail => AuthService.firebase().currentUser!.email;
+
   Future<Map<int, Habit>> _getAllHabits() async {
     //_habit!.userId = _user!.id;
     //final habits = await fetchUserHabits(_user!.id);
+
+    //getOrCreateUser(email: userEmail);
     final habits = await _getAllHabitsFromDb();
     final map = Map<int, Habit>();
+    final currentUser = _user;
+    print(currentUser);
     for (final habit in habits) {
+      // if (currentUser != null) {
+      //   print(currentUser.id);
+      //   print(habit.userId);
+      //   if (habit.userId == currentUser.id) {}
+      //   // map[habit.id] = habit;
+      // }
       map[habit.id] = habit;
+      //map[habit.userId] = currentUser?.id;
     }
     return map;
   }
 
   Future<List<Habit>> _getAllHabitsFromDb() async {
     final habitsMap = await HabitsDb.getAllHabits(db);
-    //final user = await _userService?.getUser(email: userEmail);
-    //final currentUser = _user;
-    //AuthService.firebase().initialze();
-    //final user = AuthService.firebase().currentUser;
     final habitsList = habitsMap.map((e) => Habit.fromDb(e)).toList();
     // final habitsList = habitsMap
     //     .map((e) => Habit.fromDb(e))
@@ -170,25 +182,19 @@ class DataService {
     return habitsList;
   }
 
-  Future<Map<int, Habit>> fetchUserHabits(int userId) async {
-    //Database db = await instance.database;
-    final habits = await _getAllHabitsFromDb();
-    List<Map<String, dynamic>> results = await db
-        .query(UsersTable.tableName, where: "userId = ?", whereArgs: [userId]);
+  // Future<Map<int, Habit>> fetchUserHabits(int userId) async {
+  //   //Database db = await instance.database;
+  //   final habits = await _getAllHabitsFromDb();
+  //   List<Map<String, dynamic>> results = await db
+  //       .query(UsersTable.tableName, where: "userId = ?", whereArgs: [userId]);
 
-    final map = Map<int, Habit>();
-    for (final results in habits) {
-      map[results.id] = results;
-    }
-    return map;
+  //   final map = Map<int, Habit>();
 
-    // List<Habit> habits = [];
-    // results.forEach((result) {
-    //   Habit habit = Habit.fromDb(result);
-    //   habits.add(habit);
-    // });
-    // return habits;
-  }
+  //   for (final results in habits) {
+  //     map[results.id] = results;
+  //   }
+  //   return map;
+  // }
 
   Future<void> _createDays(int year, int month) async {
     final allHabits = await _getAllHabitsFromDb();
@@ -274,6 +280,7 @@ class DataService {
       if (setAsCurrentUser) {
         _user = user;
       }
+      print(_user?.email);
       return user;
     } on CouldNotFindUser {
       //we didn't find the user
@@ -290,7 +297,7 @@ class DataService {
   Future<Users> getUser({required String email}) async {
     // final results = await db.rawQuery(
     //     'SELECT * FROM "${UsersTable.tableName}" WHERE email = ?', [email]);
-    db = await HabitsDb.connectToDb();
+    //db = await HabitsDb.connectToDb();
     final results = await db.query(
       UsersTable.tableName,
       limit: 1,

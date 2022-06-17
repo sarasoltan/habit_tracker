@@ -51,6 +51,8 @@ dependencies:
   emoji_picker_flutter: ^1.1.2
   shared_preferences: ^2.0.13
   url_launcher: ^6.0.20
+  
+
 
 dev_dependencies:
   flutter_test:

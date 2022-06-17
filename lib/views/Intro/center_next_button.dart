@@ -1,12 +1,27 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
+import 'package:project2/views/Intro/introduction_animation_screen.dart';
+import 'package:project2/views/home_page/home_page.dart';
 import 'package:project2/views/login_view.dart';
 import 'package:project2/views/register_view.dart';
 import 'package:project2/main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+IntroductionAnimationScreen introductionAnimationScreen =
+    const IntroductionAnimationScreen();
 
 class CenterNextButton extends StatelessWidget {
   final AnimationController animationController;
   final VoidCallback onNextClick;
+
+  _storeOnboardInfo() async {
+    print("Shared pref called");
+    int isViewed = 0;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('onBoard', isViewed);
+    print(prefs.getInt('onBoard'));
+  }
+
   const CenterNextButton(
       {Key? key, required this.animationController, required this.onNextClick})
       : super(key: key);
@@ -24,7 +39,7 @@ class CenterNextButton extends StatelessWidget {
       ),
     ));
     final _signUpMoveAnimation =
-        Tween<double>(begin: 0, end: 1.0).animate(CurvedAnimation(
+        Tween<double>(begin: 1, end: 1.0).animate(CurvedAnimation(
       parent: animationController,
       curve: const Interval(
         0.6,
@@ -105,7 +120,7 @@ class CenterNextButton extends StatelessWidget {
                               // );
                               Navigator.of(context).push(
                                 MaterialPageRoute(
-                                    builder: (context) => const RegisterView()),
+                                    builder: (context) => const HomePage()),
                               );
                             },
                             child: Padding(
@@ -114,16 +129,16 @@ class CenterNextButton extends StatelessWidget {
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const Text(
-                                    'Sign Up',
-                                    style: const TextStyle(
+                                children: const [
+                                  Text(
+                                    'Get started',
+                                    style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 18,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
-                                  const Icon(Icons.arrow_forward_rounded,
+                                  Icon(Icons.arrow_forward_rounded,
                                       color: Colors.white),
                                 ],
                               ),
@@ -160,9 +175,11 @@ class CenterNextButton extends StatelessWidget {
                   ),
                   TextButton(
                     onPressed: () {
+                      _storeOnboardInfo();
+
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                            builder: (context) => const LoginView()),
+                            builder: (context) => const HomePage()),
                       );
                     },
                     child: const Text(

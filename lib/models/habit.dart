@@ -6,25 +6,13 @@ import 'package:project2/models/user.dart';
 import 'package:project2/services/auth/auth_service.dart';
 import 'package:project2/services/data_service.dart';
 
-//final dbUser = await getUser(email: owner?.email);
-//final owner = AuthService.firebase().currentUser;
-//UserService _userService;
-final DataService userService = DataService();
-//String get owneruserId => AuthService.firebase().currentUser!.id;
-String get owneremail => AuthService.firebase().currentUser!.email;
-//Users owner = Users(email: owneremail);
-// Future<Users> s() async {
-//   final owner = await userService.getUser(email: owneremail);
-//   return owner;
-// }
+final DataService dataService = DataService();
 
-//AuthUser? owner = AuthService.firebase().currentUser;
-// final currentUser = AuthService.firebase().currentUser!;
-// final userId = currentUser.id;
+String get owneremail => AuthService.firebase().currentUser!.email;
 
 class Habit {
   late final int id;
-  late final int userId;
+  // late final int userId;
   late String text;
   late String emoji;
   late final List<int> period;
@@ -33,7 +21,7 @@ class Habit {
   Habit(
       {
       //required this.id,
-      required this.userId,
+      //required this.userId,
       required this.text,
       required this.emoji,
       required this.period,
@@ -41,7 +29,7 @@ class Habit {
 
   Habit.fromDb(Map<String, dynamic> map) {
     id = map[HabitsTable.id] as int;
-    userId = map[HabitsTable.userId] as int;
+    //userId = map[HabitsTable.userId] as int;
     text = map[HabitsTable.text] as String;
     emoji = map[HabitsTable.emoji];
     period = (jsonDecode(map[HabitsTable.period]) as List<dynamic>)
@@ -55,13 +43,14 @@ class Habit {
     }
   }
 
-  Future<Map<String, dynamic>> toDb() async {
+  // Future<Map<String, dynamic>> toDb() async {
+  Map<String, dynamic> toDb() {
     //var a = await s();
     print(text);
-    print(userId);
+    //print(userId);
     return {
       //HabitsTable.id: id,
-      HabitsTable.userId: userId,
+      //HabitsTable.userId: userId,
       HabitsTable.text: text,
       HabitsTable.emoji: emoji,
       HabitsTable.period: jsonEncode(period),

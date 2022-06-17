@@ -6,6 +6,7 @@ import 'package:project2/views/Intro/splash_view.dart';
 import 'package:project2/views/Intro/top_back_skip_view.dart';
 import 'package:project2/views/Intro/welcome_view.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class IntroductionAnimationScreen extends StatefulWidget {
   const IntroductionAnimationScreen({Key? key}) : super(key: key);
@@ -35,7 +36,6 @@ class _IntroductionAnimationScreenState
 
   @override
   Widget build(BuildContext context) {
-    print(_animationController?.value);
     return Scaffold(
       backgroundColor: Color(0xffF7EBE1),
       body: ClipRect(

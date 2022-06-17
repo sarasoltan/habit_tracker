@@ -12,23 +12,28 @@ import 'package:project2/services/data_service.dart';
 import 'package:sqflite/sqflite.dart';
 
 class AddHabitDialogController {
+  final dataService = DataService();
+  // await dataService.init();
+
   Users? owner;
   Users? _user;
 
   //final user = FirebaseAuth.instance.currentUser;
   //String get owneruserId => AuthService.firebase().currentUser!.id;
-  final DataService userService = DataService();
+  //final DataService dataService = DataService();
+
 //String get owneruserId => AuthService.firebase().currentUser!.id;
-  String get owneremail => AuthService.firebase().currentUser!.email;
+  // String get owneremail => AuthService.firebase().currentUser!.email;
 //Users owner = Users(email: owneremail);
-  Future<Users> s() async {
-    final owner = await userService.getUser(email: owneremail);
-    return owner;
-  }
+  // Future<Users> s() async {
+  //   await dataService.init();
+  //   final owner = await dataService.getUser(email: owneremail);
+  //   return owner;
+  // }
 
   final List<bool> period = [true, true, true, true, true, true, true];
   int? id;
-  int? userId;
+  //int? userId;
   String? emoji;
   String? text;
   StartPeriod startPeriod = StartPeriod.none;
@@ -74,11 +79,12 @@ class AddHabitDialogController {
         forPeriod.add(i + 1);
       }
     }
-    Users a = await s();
+    //Users a = await s();
 
     final habit = Habit(
         //id: id!,
-        userId: a.id,
+        //userId: a.id,
+        //userId: id!,
         emoji: emoji!,
         text: text!,
         period: forPeriod,

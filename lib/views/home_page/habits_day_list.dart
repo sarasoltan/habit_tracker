@@ -12,8 +12,6 @@ class HabitsDayList extends StatefulWidget {
 }
 
 class _HabitsDayListState extends State<HabitsDayList> {
-  late final DataService _dataService;
-
   @override
   Widget build(BuildContext context) {
     final controller = Provider.of<HomePageController>(context);
@@ -23,9 +21,6 @@ class _HabitsDayListState extends State<HabitsDayList> {
         initialData: controller.selectedDayindex.value,
         builder: (context, snapshot) {
           final dayIndex = snapshot.data!;
-          // print(snapshot.data);
-          // print(context);
-
           return ListView.separated(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             itemCount: controller.days[dayIndex].habits.length,

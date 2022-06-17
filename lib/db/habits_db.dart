@@ -91,8 +91,9 @@ class HabitsDb {
         whereArgs: [day[DaysTable.date]]);
   }
 
-  static Future<int> createHabit(Database db, Habit habit) async {
-    return db.insert(HabitsTable.tableName, await habit.toDb(),
+  // static Future<int> createHabit(Database db, Habit habit) async {
+  static Future<int> createHabit(Database db, Habit habit) {
+    return db.insert(HabitsTable.tableName, habit.toDb(),
         conflictAlgorithm: ConflictAlgorithm.fail);
   }
 

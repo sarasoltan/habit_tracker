@@ -74,7 +74,7 @@ class RelaxView extends StatelessWidget {
       child: SlideTransition(
         position: _secondHalfAnimation,
         child: Padding(
-          padding: const EdgeInsets.only(bottom: 50),
+          padding: const EdgeInsets.only(bottom: 130),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -92,7 +92,7 @@ class RelaxView extends StatelessWidget {
                   padding:
                       EdgeInsets.only(left: 64, right: 64, top: 15, bottom: 16),
                   child: Text(
-                    "Three to four weeks is all the time you need to make a habit automatic. If you can make it through the initial conditioning phase, it becomes much easier to sustain. A month is a good block of time to commit to a change since it easily fits in your calendar.",
+                    "Three to four weeks is all the time you need to make a habit automatic. If you can make it through the initial conditioning phase, it becomes much easier to sustain.",
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -101,9 +101,10 @@ class RelaxView extends StatelessWidget {
                 position: _imageAnimation,
                 child: Container(
                   constraints:
-                      const BoxConstraints(maxWidth: 350, maxHeight: 250),
+                      const BoxConstraints(maxWidth: 300, maxHeight: 210),
                   child: Image.asset(
-                    'assets/introduction_animation/relax_image.png',
+                    'assets/images/feedbackImage.png',
+                    //'assets/introduction_animation/relax_image.png',
                     fit: BoxFit.contain,
                   ),
                 ),
