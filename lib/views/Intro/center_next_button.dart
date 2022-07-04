@@ -29,7 +29,7 @@ class CenterNextButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _topMoveAnimation =
-        Tween<Offset>(begin: const Offset(0, 5), end: const Offset(0, 0))
+        Tween<Offset>(begin: const Offset(0, 10), end: const Offset(0, 0))
             .animate(CurvedAnimation(
       parent: animationController,
       curve: const Interval(
@@ -39,7 +39,7 @@ class CenterNextButton extends StatelessWidget {
       ),
     ));
     final _signUpMoveAnimation =
-        Tween<double>(begin: 1, end: 1.0).animate(CurvedAnimation(
+        Tween<double>(begin: 0, end: 1.0).animate(CurvedAnimation(
       parent: animationController,
       curve: const Interval(
         0.6,
@@ -118,6 +118,7 @@ class CenterNextButton extends StatelessWidget {
                               //   MaterialPageRoute(
                               //       builder: (context) => RegisterView()),
                               // );
+                              _storeOnboardInfo();
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                     builder: (context) => const HomePage()),

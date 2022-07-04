@@ -70,7 +70,10 @@ class _MyAppState extends State<MyApp> {
                   return AnimatedTheme(
                     duration: const Duration(milliseconds: 500),
                     data: snapshot.data!,
-                    child: MaterialApp(theme: snapshot.data, home: HomePage()),
+                    child: MaterialApp(
+                        debugShowCheckedModeBanner: false,
+                        theme: snapshot.data,
+                        home: HomePage()),
                   );
                 });
           }

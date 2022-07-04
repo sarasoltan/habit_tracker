@@ -56,13 +56,13 @@ class ThemeService {
 
   void _enabledDark() {
     SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle(statusBarBrightness: Brightness.dark));
+        const SystemUiOverlayStyle(statusBarBrightness: Brightness.dark));
     theme.add(getDarkTheme(themeColor));
   }
 
   void _enabledLight() {
     SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle(statusBarBrightness: Brightness.light));
+        const SystemUiOverlayStyle(statusBarBrightness: Brightness.light));
     theme.add(getLightTheme(themeColor));
   }
 

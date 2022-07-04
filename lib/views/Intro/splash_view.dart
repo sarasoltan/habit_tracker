@@ -14,7 +14,7 @@ class _SplashViewState extends State<SplashView> {
   @override
   Widget build(BuildContext context) {
     final _introductionanimation =
-        Tween<Offset>(begin: const Offset(0, 0), end: const Offset(0, -1.0))
+        Tween<Offset>(begin: const Offset(0, 0), end: const Offset(0.0, -1.0))
             .animate(CurvedAnimation(
       parent: widget.animationController,
       curve: const Interval(

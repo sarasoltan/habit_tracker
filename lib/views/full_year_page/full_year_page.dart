@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project2/themes/base_theme.dart';
 import 'package:project2/views/full_year_page/full_year_page_controller.dart';
 import 'package:project2/utilities/consts.dart';
 import 'package:provider/provider.dart';
@@ -13,6 +14,7 @@ class FullYearPage extends StatelessWidget {
       dispose: (ctx, FullYearPageController controller) => controller.dispose(),
       child: Scaffold(
         appBar: AppBar(
+          //backgroundColor: BLACK,
           title: Text(now.year.toString(),
               style: Theme.of(context).textTheme.headline1),
         ),
@@ -91,8 +93,10 @@ class MiniCalendar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final whiteSpaces = DateTime(year, month).weekday - 1;
-    final days = DateUtils.getDaysInMonth(year, month) + whiteSpaces;
+    final whiteSpaces =
+        DateTime(year, month).weekday - 1; //avalin rooze harmah - 1
+    final days = DateUtils.getDaysInMonth(year, month) +
+        whiteSpaces; //tedad roozhaye dar mah + whiteSpaces
     final controller = Provider.of<FullYearPageController>(context);
 
     return Expanded(
@@ -114,6 +118,7 @@ class MiniCalendar extends StatelessWidget {
                 padding: const EdgeInsets.all(10),
                 children: List.generate(days, (index) {
                   if (index < whiteSpaces) {
+                    //eturn SizedBox();
                     return SizedBox.shrink();
                   }
 

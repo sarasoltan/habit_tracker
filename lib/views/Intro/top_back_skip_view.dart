@@ -14,6 +14,7 @@ class TopBackSkipView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //animation for both skip and back
     final _animation =
         Tween<Offset>(begin: const Offset(0, -1), end: const Offset(0.0, 0.0))
             .animate(CurvedAnimation(
@@ -24,17 +25,18 @@ class TopBackSkipView extends StatelessWidget {
         curve: Curves.fastOutSlowIn,
       ),
     ));
-
-    // final _backAnimation =
-    //     Tween<Offset>(begin: Offset(0, 0), end: Offset(-2, 0))
-    //         .animate(CurvedAnimation(
-    //   parent: animationController,
-    //   curve: Interval(
-    //     0.6,
-    //     0.8,
-    //     curve: Curves.fastOutSlowIn,
-    //   ),
-    // ));
+//when back fades
+    final _backAnimation =
+        Tween<Offset>(begin: Offset(0, 0), end: const Offset(-2, 0))
+            .animate(CurvedAnimation(
+      parent: animationController,
+      curve: const Interval(
+        0.6,
+        0.8,
+        curve: Curves.fastOutSlowIn,
+      ),
+    ));
+//when skip fades
     final _skipAnimation =
         Tween<Offset>(begin: const Offset(0, 0), end: const Offset(2, 0))
             .animate(CurvedAnimation(
@@ -49,6 +51,7 @@ class TopBackSkipView extends StatelessWidget {
     return SlideTransition(
       position: _animation,
       child: Padding(
+        //padding: EdgeInsets.only(top: 25) =
         padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
         child: Container(
           height: 58,
@@ -57,13 +60,12 @@ class TopBackSkipView extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                // SlideTransition(
-                //   position: _backAnimation,
-                //   child:
-                IconButton(
-                  onPressed: onBackClick,
-                  icon: const Icon(Icons.arrow_back_ios_new_rounded),
-                  //   ),
+                SlideTransition(
+                  position: _backAnimation,
+                  child: IconButton(
+                    onPressed: onBackClick,
+                    icon: const Icon(Icons.arrow_back_ios_new_rounded),
+                  ),
                 ),
                 SlideTransition(
                   position: _skipAnimation,

@@ -24,6 +24,7 @@ class Calendar extends StatelessWidget {
 
           return Stack(
             children: [
+              //entekhabe rooze jadid
               GestureDetector(
                 onHorizontalDragEnd: controller.onSwipeCalendar,
                 child: GridView.count(
@@ -37,12 +38,12 @@ class Calendar extends StatelessWidget {
                     if (index < initialWhites) {
                       return SizedBox.shrink();
                     }
-
+                    //porang kardane habits done
                     return GestureDetector(
                       onTap: () =>
                           controller.selectNewDay(index - initialWhites),
                       child: AnimatedContainer(
-                          duration: Duration(milliseconds: 300),
+                          duration: Duration(milliseconds: 800),
                           decoration: BoxDecoration(
                               color: Color.lerp(
                                   Theme.of(context).shadowColor,
@@ -56,6 +57,7 @@ class Calendar extends StatelessWidget {
                   }),
                 ),
               ),
+              //bilbilake dore harroz
               StreamBuilder<int>(
                   stream: controller.selectedDayindex.stream,
                   initialData: controller.selectedDayindex.value,

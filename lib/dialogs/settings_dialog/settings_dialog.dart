@@ -29,11 +29,11 @@ class SettingsDialog extends StatelessWidget {
                     child: Text("Settings",
                         style: Theme.of(context).textTheme.headline2),
                   ),
-                  Divider(color: Colors.transparent, height: 20),
-                  Text(
+                  const Divider(color: Colors.transparent, height: 20),
+                  const Text(
                     "Light mode",
                   ),
-                  Divider(color: Colors.transparent, height: 5),
+                  const Divider(color: Colors.transparent, height: 5),
                   TripleSelector(
                     options: ["Light", "Dark", "Auto"],
                     onChanged: (newValue) =>
@@ -41,8 +41,8 @@ class SettingsDialog extends StatelessWidget {
                     initialValue: controller.themeStatus.index,
                     align: MainAxisAlignment.start,
                   ),
-                  Divider(color: Colors.transparent),
-                  Text("Colors"),
+                  const Divider(color: Colors.transparent),
+                  const Text("Colors"),
                   StreamBuilder<Object>(
                       stream: controller.selectedColor.stream,
                       initialData: controller.selectedColor.value,
@@ -56,7 +56,7 @@ class SettingsDialog extends StatelessWidget {
                               onTap: () => controller
                                   .changeThemeColor(ThemeColors.yellowBlue),
                             )),
-                            VerticalDivider(color: Colors.transparent),
+                            const VerticalDivider(color: Colors.transparent),
                             Expanded(
                                 child: ColorsBox(
                               colors: getColors(ThemeColors.purpleGreen),
@@ -65,7 +65,7 @@ class SettingsDialog extends StatelessWidget {
                               onTap: () => controller
                                   .changeThemeColor(ThemeColors.purpleGreen),
                             )),
-                            VerticalDivider(color: Colors.transparent),
+                            const VerticalDivider(color: Colors.transparent),
                             Expanded(
                                 child: ColorsBox(
                               colors: getColors(ThemeColors.orangeBlue),
@@ -76,7 +76,7 @@ class SettingsDialog extends StatelessWidget {
                           ],
                         );
                       }),
-                  Divider(color: Colors.transparent, height: 50),
+                  const Divider(color: Colors.transparent, height: 50),
                   GestureDetector(
                     child: Center(
                         child: TextButton(
@@ -89,14 +89,14 @@ class SettingsDialog extends StatelessWidget {
                         //final shouldLogout = await showLogOutDialog(context);
                         // if (shouldLogout) {
                         await AuthService.firebase().logOut();
-                        Navigator.of(context).push(
-                            MaterialPageRoute(builder: (ctx) => LoginView()));
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (ctx) => const LoginView()));
                         // Navigator.of(context).pushNamedAndRemoveUntil(
                         //     loginRoute, (route) => false);
                         //      }
                         //   };
                       },
-                      child: Text('Logout'),
+                      child: const Text('Logout'),
                     )
                         //  RichText(
                         //     textAlign: TextAlign.center,
@@ -125,7 +125,8 @@ class SettingsDialog extends StatelessWidget {
               CurvedAnimation(parent: anim1, curve: Curves.easeOut);
 
           return SlideTransition(
-            position: Tween<Offset>(begin: Offset(0, -1), end: Offset(0, 0))
+            position: Tween<Offset>(
+                    begin: const Offset(0, -1), end: const Offset(0, 0))
                 .animate(curvedAnimation),
             child: child,
           );
@@ -164,9 +165,9 @@ class ColorsBox extends StatelessWidget {
               child: Container(
                 height: HEIGHT,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(RADIUS),
-                        bottomLeft: Radius.circular(RADIUS)),
+                    borderRadius: const BorderRadius.only(
+                        topLeft: const Radius.circular(RADIUS),
+                        bottomLeft: const Radius.circular(RADIUS)),
                     color: colors[0]),
               ),
             ),
@@ -180,9 +181,9 @@ class ColorsBox extends StatelessWidget {
               child: Container(
                 height: HEIGHT,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(RADIUS),
-                        bottomRight: Radius.circular(RADIUS)),
+                    borderRadius: const BorderRadius.only(
+                        topRight: const Radius.circular(RADIUS),
+                        bottomRight: const Radius.circular(RADIUS)),
                     color: colors[2]),
               ),
             )

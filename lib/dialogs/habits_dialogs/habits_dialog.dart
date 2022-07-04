@@ -25,7 +25,7 @@ class HabitsDialog extends StatelessWidget {
                 height: MediaQuery.of(context).size.height * 0.8,
                 decoration: BoxDecoration(
                     color: Theme.of(context).backgroundColor,
-                    borderRadius: BorderRadius.only(
+                    borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(10),
                         topRight: Radius.circular(10))),
                 padding: const EdgeInsets.only(top: 15),

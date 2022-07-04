@@ -19,6 +19,7 @@ class HomePageController {
   final StreamData<DateTime> selectedMonth = StreamData(
       initialValue: DateTime(DateTime.now().year, DateTime.now().month),
       broadcast: true);
+
   final StreamData<int> selectedDayindex =
       StreamData(initialValue: DateTime.now().day - 1, broadcast: true);
 
