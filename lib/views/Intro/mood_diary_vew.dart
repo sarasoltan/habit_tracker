@@ -105,7 +105,8 @@ class MoodDiaryView extends StatelessWidget {
                     constraints:
                         const BoxConstraints(maxWidth: 350, maxHeight: 250),
                     child: Image.asset(
-                      'assets/introduction_animation/mood_dairy_image.png',
+                      'assets/images/list.png',
+                      // 'assets/introduction_animation/mood_dairy_image.png',
                       fit: BoxFit.contain,
                     ),
                   ),

@@ -160,38 +160,38 @@ class CenterNextButton extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 8),
+            padding: const EdgeInsets.only(top: 50),
             child: SlideTransition(
               position: _loginTextMoveAnimation,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    'Already have an account? ',
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 14,
-                      fontWeight: FontWeight.normal,
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      _storeOnboardInfo();
+                children: const [
+                  // const Text(
+                  //   'Already have an account? ',
+                  //   style: TextStyle(
+                  //     color: Colors.grey,
+                  //     fontSize: 14,
+                  //     fontWeight: FontWeight.normal,
+                  //   ),
+                  // ),
+                  // TextButton(
+                  //   onPressed: () {
+                  //     _storeOnboardInfo();
 
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                            builder: (context) => const HomePage()),
-                      );
-                    },
-                    child: const Text(
-                      'Login',
-                      style: TextStyle(
-                        color: Color(0xff132137),
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
+                  //     Navigator.of(context).push(
+                  //       MaterialPageRoute(
+                  //           builder: (context) => const HomePage()),
+                  //     );
+                  //   },
+                  // child: const Text(
+                  //   'Login',
+                  //   style: TextStyle(
+                  //     color: Color(0xff132137),
+                  //     fontSize: 16,
+                  //     fontWeight: FontWeight.bold,
+                  //   ),
+                  // ),
+                  //  ),
                 ],
               ),
             ),

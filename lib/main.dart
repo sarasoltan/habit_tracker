@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:path/path.dart';
 import 'package:project2/db/user_services.dart';
 import 'package:project2/services/auth/auth_service.dart';
 import 'package:project2/services/data_service.dart';
@@ -31,6 +32,7 @@ void main() async {
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
   isviewed = prefs.getInt('onBoard');
+  //runApp(DevicePreview(builder: (context) => MyApp()));
   runApp(MyApp());
 }
 
@@ -56,6 +58,7 @@ class _MyAppState extends State<MyApp> {
                     duration: const Duration(milliseconds: 500),
                     data: snapshot.data!,
                     child: MaterialApp(
+                        debugShowCheckedModeBanner: false,
                         theme: snapshot.data,
                         home: IntroductionAnimationScreen()),
                   );

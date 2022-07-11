@@ -8,7 +8,7 @@ class WelcomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _firstHalfAnimation =
-        Tween<Offset>(begin: const Offset(1, 0), end: const Offset(0, 0))
+        Tween<Offset>(begin: const Offset(1, 0), end: const Offset(0.1, 0))
             .animate(
       CurvedAnimation(
         parent: animationController,
@@ -33,7 +33,7 @@ class WelcomeView extends StatelessWidget {
     );
 
     final _welcomeFirstHalfAnimation =
-        Tween<Offset>(begin: const Offset(2, 0), end: const Offset(0, 0))
+        Tween<Offset>(begin: const Offset(2, 0), end: const Offset(0.1, 0))
             .animate(CurvedAnimation(
       parent: animationController,
       curve: const Interval(
@@ -68,7 +68,8 @@ class WelcomeView extends StatelessWidget {
                   constraints:
                       const BoxConstraints(maxWidth: 350, maxHeight: 350),
                   child: Image.asset(
-                    'assets/introduction_animation/welcome.png',
+                    'assets/images/hiker.png',
+                    //'assets/introduction_animation/welcome.png',
                     fit: BoxFit.contain,
                   ),
                 ),
